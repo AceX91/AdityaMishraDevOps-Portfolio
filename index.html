@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Aditya Mishra | Software Engineer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Content Security Policy (meta-level, best-effort). For production, set as a response header from your server for stronger enforcement. -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://aistudiocdn.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' mailto:; upgrade-insecure-requests;">
+    <!-- Additional security-related meta headers (some have stronger effect when set as server headers) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=()">
   <script type="importmap">
 {
   "imports": {
@@ -19,6 +25,47 @@
 }
 </script>
 <link rel="stylesheet" href="/index.css">
+    <!-- Lightweight client-side blocker for common DevTools shortcuts (best-effort only) -->
+    <script>
+      (function() {
+        // Block common devtools keyboard shortcuts and right-click
+        function onKey(e) {
+          try {
+            // F12
+            if (e.key === 'F12') { e.preventDefault(); e.stopImmediatePropagation(); return false; }
+
+            const key = (e.key || '').toUpperCase();
+            // Ctrl+Shift+I / C / J
+            if (e.ctrlKey && e.shiftKey && (key === 'I' || key === 'C' || key === 'J')) {
+              e.preventDefault(); e.stopImmediatePropagation(); return false;
+            }
+
+            // Ctrl+U (view-source) and Ctrl+Shift+U
+            if (e.ctrlKey && key === 'U') { e.preventDefault(); e.stopImmediatePropagation(); return false; }
+
+            // Ctrl+Shift+K (Firefox web console)
+            if (e.ctrlKey && e.shiftKey && key === 'K') { e.preventDefault(); e.stopImmediatePropagation(); return false; }
+          } catch (err) {
+            // swallow
+          }
+        }
+
+        function onContext(e) {
+          try { e.preventDefault(); e.stopImmediatePropagation(); return false; } catch (err) {}
+        }
+
+        // Capture early and use capture phase to try to stop propagation
+        document.addEventListener('keydown', onKey, true);
+        document.addEventListener('contextmenu', onContext, true);
+
+        // Also prevent some common mouse gestures (middle/right button)
+        document.addEventListener('mousedown', function(e) {
+          if (e.button === 2) { e.preventDefault(); e.stopImmediatePropagation(); return false; }
+        }, true);
+
+        // NOTE: This is intentionally lightweight — determined users can bypass it.
+      })();
+    </script>
 </head>
   <body>
     <div id="root"></div>

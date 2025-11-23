@@ -64,7 +64,7 @@ const Contact: React.FC = () => {
                 <span>{PERSONAL_INFO.phone}</span>
               </a>
               <a
-                href={`https://www.google.com/maps/search/?api=1&query=22.5726,88.3639`}
+                href={`https://www.google.com/maps/search/?api=1&query=Kolkata,India`}
                 onClick={(e) => {
                   e.preventDefault();
                   const lat = 22.5726;
@@ -74,14 +74,14 @@ const Contact: React.FC = () => {
                   // On iOS prefer Apple Maps universal link; otherwise open Google Maps in new tab
                   try {
                     if (isiOS) {
-                      window.location.href = `https://maps.apple.com/?q=${lat},${lng}`;
+                      window.location.href = `https://maps.apple.com/?q=Kolkata,India`;
                       return;
                     }
                     // Default: open Google Maps web in new tab/window
-                    window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank', 'noopener,noreferrer');
+                    window.open(`https://www.google.com/maps/search/?api=1&query=Kolkata,India`, '_blank', 'noopener,noreferrer');
                   } catch (err) {
                     // fallback to the href if window.open is blocked
-                    window.location.href = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+                    window.location.href = `https://www.google.com/maps/search/?api=1&query=Kolkata,India`;
                   }
                 }}
                 className="flex items-center gap-4 text-slate-300 hover:text-accent transition-colors"
