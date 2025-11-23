@@ -11,6 +11,7 @@ const Contact: React.FC = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [status, setStatus] = useState<'idle'|'sent'|'error'>('idle');
+  const [showToast, setShowToast] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +29,10 @@ const Contact: React.FC = () => {
     // Open the user's mail client with prefilled subject/body as a fallback
     window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
     setStatus('sent');
+    // show toast notification
+    setShowToast(true);
+    // auto-hide after 3.5s
+    setTimeout(() => setShowToast(false), 3500);
     // Optionally clear form
     setName('');
     setEmail('');
@@ -58,12 +63,36 @@ const Contact: React.FC = () => {
                 </div>
                 <span>{PERSONAL_INFO.phone}</span>
               </a>
-              <div className="flex items-center gap-4 text-slate-300">
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=22.5726,88.3639`}
+                onClick={(e) => {
+                  e.preventDefault();
+                  const lat = 22.5726;
+                  const lng = 88.3639;
+                  const ua = navigator.userAgent || navigator.vendor || '';
+                  const isiOS = /iPad|iPhone|iPod/.test(ua);
+                  // On iOS prefer Apple Maps universal link; otherwise open Google Maps in new tab
+                  try {
+                    if (isiOS) {
+                      window.location.href = `https://maps.apple.com/?q=${lat},${lng}`;
+                      return;
+                    }
+                    // Default: open Google Maps web in new tab/window
+                    window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank', 'noopener,noreferrer');
+                  } catch (err) {
+                    // fallback to the href if window.open is blocked
+                    window.location.href = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+                  }
+                }}
+                className="flex items-center gap-4 text-slate-300 hover:text-accent transition-colors"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center">
                   <MapPin size={18} />
                 </div>
                 <span>{PERSONAL_INFO.location}</span>
-              </div>
+              </a>
             </div>
           </div>
 
@@ -108,6 +137,12 @@ const Contact: React.FC = () => {
           </button>
         </div>
       </div>
+      {/* Toast container */}
+      {showToast && (
+        <div className="toast-container">
+          <div className="toast">Message delivered — check your mail client to send.</div>
+        </div>
+      )}
     </footer>
   );
 };
