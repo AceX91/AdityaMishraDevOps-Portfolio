@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Download, Code } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { PERSONAL_INFO } from '../constants';
 
-interface NavbarProps {
-  onOpenDeploy: () => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ onOpenDeploy }) => {
+const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -47,13 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenDeploy }) => {
                 {link.name}
               </a>
             ))}
-            <button 
-              onClick={onOpenDeploy}
-              className="flex items-center gap-2 bg-accent/10 hover:bg-accent/20 text-accent px-4 py-2 rounded-full text-sm font-medium transition-all"
-            >
-              <Code size={16} />
-              <span>Host This</span>
-            </button>
+            
           </div>
 
           {/* Mobile Menu Button */}
@@ -82,16 +72,7 @@ const Navbar: React.FC<NavbarProps> = ({ onOpenDeploy }) => {
                 {link.name}
               </a>
             ))}
-            <button
-               onClick={() => {
-                 setIsOpen(false);
-                 onOpenDeploy();
-               }}
-               className="w-full text-left flex items-center gap-2 px-3 py-2 text-accent font-medium"
-            >
-              <Code size={16} />
-              Host This Portfolio
-            </button>
+            
           </div>
         </div>
       )}
