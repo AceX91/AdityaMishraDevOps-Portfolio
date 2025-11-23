@@ -3,9 +3,12 @@ import { EDUCATION } from '../constants';
 import { motion } from 'framer-motion';
 import { GraduationCap, BookOpen } from 'lucide-react';
 
+import WaveSeparator from './WaveSeparator';
+
 const Education: React.FC = () => {
   return (
-    <section id="education" className="py-20 bg-primary border-t border-slate-800">
+    <section id="education" className="relative py-20 bg-primary">
+      <WaveSeparator flip />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

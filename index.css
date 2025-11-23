@@ -1,10 +1,13 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 body {
-  background-color: #0f172a;
+  /* Dark-blue top to black bottom gradient */
+  background: linear-gradient(180deg, #071a52 0%, #000000 100%);
   color: #e2e8f0;
+  background-attachment: fixed;
 }
 
 /* Animated background layers: clouds and wavy foreground */

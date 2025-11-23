@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../constants';
 import { Mail, Phone, MapPin, Linkedin, ArrowUp } from 'lucide-react';
+import WaveSeparator from './WaveSeparator';
 
 const Contact: React.FC = () => {
   const scrollToTop = () => {
@@ -40,7 +41,8 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <footer id="contact" className="bg-slate-900 border-t border-slate-800 pt-20 pb-10">
+    <footer id="contact" className="relative bg-slate-900 pt-20 pb-10">
+      <WaveSeparator />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 mb-16">
           <div>
@@ -124,7 +126,8 @@ const Contact: React.FC = () => {
           </div>
         </div>
 
-        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <WaveSeparator small />
+        <div className="pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-500 text-sm">
             © {new Date().getFullYear()} {PERSONAL_INFO.name}. All rights reserved.
           </p>
