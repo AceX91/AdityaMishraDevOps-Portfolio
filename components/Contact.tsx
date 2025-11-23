@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../constants';
 import { Mail, Phone, MapPin, Linkedin, ArrowUp } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<'idle'|'sent'|'error'>('idle');
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Basic validation
+    if (!message.trim()) {
+      setStatus('error');
+      return;
+    }
+
+    const to = PERSONAL_INFO.email || '';
+    const subject = encodeURIComponent(`Website message from ${name || email || 'visitor'}`);
+    const body = encodeURIComponent(`${message}\n\n---\nFrom: ${name || 'Anonymous'} ${email ? `<${email}>` : ''}`);
+
+    // Open the user's mail client with prefilled subject/body as a fallback
+    window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+    setStatus('sent');
+    // Optionally clear form
+    setName('');
+    setEmail('');
+    setMessage('');
   };
 
   return (
@@ -41,22 +68,29 @@ const Contact: React.FC = () => {
           </div>
 
           <div className="bg-slate-800 p-8 rounded-2xl border border-slate-700">
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-1">Name</label>
-                <input type="text" className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent" placeholder="Your Name" />
+                <input value={name} onChange={(e) => setName(e.target.value)} type="text" className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent" placeholder="Your Name" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-1">Email</label>
-                <input type="email" className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent" placeholder="your@email.com" />
+                <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent" placeholder="your@email.com" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-400 mb-1">Message</label>
-                <textarea rows={4} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent" placeholder="Hello..." />
+                <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={4} className="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-accent" placeholder="Hello..." />
               </div>
-              <button className="w-full bg-accent hover:bg-accentHover text-slate-900 font-bold py-3 rounded-lg transition-colors">
+              <button type="submit" className="w-full bg-accent hover:bg-accentHover text-slate-900 font-bold py-3 rounded-lg transition-colors">
                 Send Message
               </button>
+
+              {status === 'error' && (
+                <p className="text-sm text-red-400 mt-2">Please enter a message before sending.</p>
+              )}
+              {status === 'sent' && (
+                <p className="text-sm text-green-400 mt-2">Opened mail client. Complete the send in your email app.</p>
+              )}
             </form>
           </div>
         </div>
